@@ -1,8 +1,7 @@
-def evidenceLmargpost(tau, dt, Xdata, g_mean, k_mean, Np, Ntau,
-                      evi_method=None, x0=(.5, .5), h=1e-2):
+def evidenceLmargpost(tau, dt, Xdata, g_mean, k_mean, Np, Ntau, h=1e-2):
     import numpy as np
-    from Langevinf import (max_lPostLmarg, hess_logPostLmarg,
-                           log_exp_prior, logLikeLmarg)
+    from inference.Langevinf import (max_lPostLmarg, hess_logPostLmarg,
+                                     log_exp_prior, logLikeLmarg)
 
     obsInt = int(tau / dt)
     Xobs = Xdata[:, :1 + Ntau*obsInt:obsInt, :Np]

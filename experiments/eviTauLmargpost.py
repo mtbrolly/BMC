@@ -1,9 +1,9 @@
 import time
 import pandas as pd
 import numpy as np
-from evidenceLmargpost import evidenceLmargpost
+from inference.evidenceLmargpost import evidenceLmargpost
 
-experiment = 'NS2D'  # Either 'NS2D' or 'Langevin'
+experiment = 'Langevin'  # Either 'NS2D' or 'Langevin'
 save_results = 0
 
 # DataFrame for results
@@ -15,11 +15,11 @@ L = pd.DataFrame(L)
 
 # Data
 if experiment == 'Langevin':
-    from LangevinSim import LSim  # noqa: E402
+    from experiments.LangevinSim import LSim  # noqa: E402
     d = 3
     g, k = 1., 1.
 elif experiment == 'NS2D':
-    Xdata = np.load('data/NS2D_fd/kf64_nx1024/X500_sub.npy')
+    Xdata = np.load('data/NS2D_experiment/X.npy')
     dt = 2.5e-3
 
 
@@ -56,9 +56,7 @@ for i in range(nTau):
         dt = tau
 
     lLMAP, theta, lnEviL, postVar = evidenceLmargpost(tau, dt, Xdata,
-                                                      g_mean, k_mean, Np, Ntau,
-                                                      evi_method='Lap',
-                                                      do_ML=False)
+                                                      g_mean, k_mean, Np, Ntau)
     L = L.append({'Np': Np, 'Ntau': Ntau, 'tau': tau, 'lLMAP': lLMAP,
                   'gMAP': theta[0], 'kMAP': theta[1], 'varg': postVar[0, 0],
                   'vark': postVar[1, 1],

@@ -12,6 +12,18 @@ def phif(x):
     return -np.expm1(-x) / x
 
 
+def CXXf(g, k, tau):
+    return 2 * k * tau * (1 - 2 * phif(g * tau) + phif(2 * g * tau))
+
+
+def CXUf(g, k, tau):
+    return k * (phif(g * tau) * g * tau) ** 2
+
+
+def CUUf(g, k, tau):
+    return 2 * k * g ** 2 * tau * phif(2 * g * tau)
+
+
 """
 Independent exponential priors for gamma and k.
 """
