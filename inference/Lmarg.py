@@ -2,10 +2,12 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import cmocean
-from Langevinf import (logPostLmarg, max_lPostLmarg, hess_logPostLmarg,
-                       log_exp_prior, logLikeLmarg)
+from inference.Langevinf import (logPostLmarg, max_lPostLmarg,
+                                 hess_logPostLmarg, log_exp_prior,
+                                 logLikeLmarg)
 plt.style.use('paper.mplstyle')
 
+root_directory = "/home/s1511699/github/BMC/"
 
 experiment = 'NS2D'
 save_figs = 0
@@ -21,17 +23,16 @@ if experiment == 'Langevin':
     d = 3
     g, k = 1., 1.
 elif experiment == 'NS2D':
-    Xdata = np.load('/home/s1511699/github/transport/'
-                    + 'data/NS2D_fd/kf64_nx1024/X500_sub.npy')
-    dt = 1e-3 / 4 * 10
+    Xdata = np.load(root_directory + 'experiments/data/NS2D_experiment/X.npy')
+    dt = 2.5e-3
 
 # Prior
 if experiment == 'Langevin':
     k_mean = 1.
     g_mean = 1.
 elif experiment == 'NS2D':
-    RMSV = 0.666
-    t_zeta = 162.91 ** -0.5
+    RMSV = 0.6805062486538265
+    t_zeta = 0.07347211220002751
     k_mean = RMSV ** 2 * t_zeta
     g_mean = t_zeta ** -1
 

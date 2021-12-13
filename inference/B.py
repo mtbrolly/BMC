@@ -1,28 +1,26 @@
 import numpy as np
 import time
 import matplotlib.pyplot as plt
-from Brownianf import logLikeB, dkk_logLikeB, max_lPostB, logPostB
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif')
-plt.rcParams.update({'font.size': 16})
+from inference.Brownianf import logLikeB, dkk_logLikeB, max_lPostB, logPostB
+plt.style.use('paper.mplstyle')
 
+root_directory = "/home/s1511699/github/BMC/"
 
 # Data
-Xdata = np.load('/home/s1511699/github/transport/'
-                + 'data/NS2D_fd/kf64_nx1024/X.npy')
-dt = 1e-3 / 4
+Xdata = np.load(root_directory + 'experiments/data/NS2D_experiment/X.npy')
+dt = 2.5e-3
 
 
 # Prior
-RMSV = 0.666
-t_zeta = 162.91 ** -0.5
+RMSV = 0.6805062486538265
+t_zeta = 0.07347211220002751
 kappa_mean = RMSV ** 2 * t_zeta
 
 
 # Subsampling data
 Np = 100
 Ntau = 10
-tau = 0.6
+tau = 1. * t_zeta
 obsInt = int(tau / dt)
 Xobs = Xdata[:, : 1 + Ntau * obsInt: obsInt, :Np]
 DX = (Xobs[:, 1:, :] - Xobs[:, :-1, :])

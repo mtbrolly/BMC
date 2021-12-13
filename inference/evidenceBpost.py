@@ -1,7 +1,7 @@
 def evidenceBpost(tau, dt, Xdata, kappa_mean, Np, Ntau):
     import numpy as np
-    from Brownianf import (logPostB, max_lPostB, dkk_logLikeB, log_exp_prior,
-                           logLikeB)
+    from inference.Brownianf import (logPostB, max_lPostB, dkk_logLikeB,
+                                     log_exp_prior, logLikeB)
 
     obsInt = int(tau / dt)
     Xobs = Xdata[:, :1 + Ntau * obsInt:obsInt, :Np]
