@@ -45,7 +45,7 @@ class LagrangianParticleArray2D(object):
         assert self.x.shape == self.y.shape
         self.N = len(self.x)
 
-        # check that the particles are within the specified boundaries
+        # Check that the particles are within the specified boundaries
         assert np.all(self.x >= xmin) and np.all(self.x <= xmax)
         assert np.all(self.y >= ymin) and np.all(self.y <= ymax)
 
@@ -99,7 +99,7 @@ class LagrangianParticleArray2D(object):
         k4u = dt * u13
         k4v = dt * v13
 
-        # update
+        # Update
         dx = 6 ** -1 * (k1u + 2 * k2u + 2 * k3u + k4u)
         dy = 6 ** -1 * (k1v + 2 * k2v + 2 * k3v + k4v)
         return dx, dy
@@ -129,7 +129,6 @@ class LagrangianParticleArray2D(object):
         """Utitlity function to compute distance between points."""
         dx = x1-x0
         dy = y1-y0
-        # roll displacements across the borders
         if self.pix:
             dx[dx > self.Lx/2] -= self.Lx
             dx[dx < -self.Lx/2] += self.Lx
@@ -225,8 +224,6 @@ class GriddedLagrangianParticleArray2D(LagrangianParticleArray2D):
             raise ValueError('Interpolation only works with doubly'
                              + 'periodic grids at this time.')
 
-        # figure out grid geometry, assuming velocities are at cell centers
-
     def interpolate_gridded_scalar(self, x, y, c, order=1, pad=1, offset=0):
         """Interpolate gridded scalar C to points x,y.
 
@@ -260,8 +257,6 @@ class GriddedLagrangianParticleArray2D(LagrangianParticleArray2D):
         i = (x - self.xmin) / self.Lx * self.Nx + pad + offset - 0.5
         j = (y - self.ymin) / self.Ly * self.Ny + pad + offset - 0.5
 
-        # for some reason this still does not work with high precision near
-        # the boundaries
         return scipy.ndimage.map_coordinates(cp, [j, i], mode='constant',
                                              order=order, cval=np.nan)
 
