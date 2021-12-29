@@ -1,0 +1,6 @@
+font.size : 10
+text.usetex : True
+axes.grid: True
+figure.figsize: 4.0, 3.0
+lines.linewidth: 1.0
+# figure.dpi : 576

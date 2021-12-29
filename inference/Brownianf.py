@@ -88,19 +88,3 @@ def max_lPostB(Xobs, tau, kappa_mean):
         print('Optimisation unsuccessful')
 
     return kappa_star, maxlB
-
-
-def lEviB(Xobs, tau, kappa_mean):
-    """
-    Log-evidence
-    """
-    DX = (Xobs[:, 1:, :] - Xobs[:, :-1, :])
-
-    kappa_post_star, maxlPB = max_lPostB(Xobs, tau, kappa_mean)
-    maxlLB = logLikeB(DX, kappa_post_star, tau)
-    log_prior = log_exp_prior(kappa_post_star, kappa_mean)
-
-    obsInfo = -dkk_logLikeB(DX, kappa_post_star, tau)
-    lnOccamB = log_prior - 0.5 * np.log(obsInfo / (2 * np.pi))
-    lnLapEviB = maxlLB + lnOccamB
-    return lnLapEviB

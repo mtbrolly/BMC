@@ -1,30 +1,32 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from pathlib import Path
 plt.style.use('paper.mplstyle')
 plt.rcParams.update({'text.latex.preamble': r'\usepackage{amsfonts}'})
 
 experiment = 'NS2D'  # Either 'NS2D' or 'Langevin'
-save_figs = 0
+save_figs = 1
+experiments_dir = str(Path().absolute().parent)
 
 if experiment == 'Langevin':
-    fig_folder = "figures/Langevin_experiment/"
+    fig_folder = "Langevin_experiment/"
+    fig = "Fig1"
 elif experiment == 'NS2D':
-    fig_folder = "figures/NS2D_experiment/"
+    fig_folder = "NS2D_experiment/"
+    fig = "Fig6"
 
 if experiment == 'Langevin':
-    B = pd.read_pickle('data/Langevin_experiment/B.pkl')
-    L = pd.read_pickle('data/Langevin_experiment/L.pkl')
+    B = pd.read_pickle(experiments_dir + '/data/Langevin_experiment/B.pkl')
+    L = pd.read_pickle(experiments_dir + '/data/Langevin_experiment/L.pkl')
 elif experiment == 'NS2D':
-    B = pd.read_pickle('/home/s1511699/github/experiments/'
-                       + 'data/NS2D_experiment/B.pkl')
-    L = pd.read_pickle('/home/s1511699/github/experiments/'
-                       + 'data/NS2D_experiment/L.pkl')
+    B = pd.read_pickle(experiments_dir + '/data/NS2D_experiment/B.pkl')
+    L = pd.read_pickle(experiments_dir + '/data/NS2D_experiment/L.pkl')
 
 taus = np.array(B['tau'])
 if experiment == 'NS2D':
-    data = pd.read_pickle('/home/s1511699/github/experiments/'
-                          + 'data/NS2D_experiment/data_T1000.pkl')
+    data = pd.read_pickle(experiments_dir
+                          + '/data/NS2D_experiment/data_T1000.pkl')
     t_zeta = data['Ens'][data['t'] > 500].mean() ** -0.5
     RMSV = 0.696
     k_mean = RMSV ** 2 * t_zeta
@@ -65,7 +67,7 @@ elif experiment == 'NS2D':
 ax0.set_ylim(0, None)
 fig0.tight_layout()
 if save_figs:
-    plt.savefig(fig_folder + "kappa.pdf", format='pdf')
+    plt.savefig(fig_folder + fig + "a.pdf", format='pdf')
 
 
 fig1, ax1 = plt.subplots(figsize=(4.0, 2.0))
@@ -86,7 +88,7 @@ elif experiment == 'NS2D':
 ax1.set_ylim(0, None)
 fig1.tight_layout()
 if save_figs:
-    plt.savefig(fig_folder + "gamma.pdf", format='pdf')
+    plt.savefig(fig_folder + fig + "b.pdf", format='pdf')
 
 fig2, ax2 = plt.subplots(figsize=(4.0, 2.0))
 ax2.plot(taus, L['kMAP'], '--', color='k', linewidth='0.5')
@@ -106,4 +108,4 @@ elif experiment == 'NS2D':
 ax2.set_ylim(0, None)
 fig2.tight_layout()
 if save_figs:
-    plt.savefig(fig_folder + "k.pdf", format='pdf')
+    plt.savefig(fig_folder + fig + "c.pdf", format='pdf')

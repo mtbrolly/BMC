@@ -1,17 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from pathlib import Path
 plt.style.use('paper.mplstyle')
 
-save_figs = 0
-fig_folder = "/home/s1511699/github/experiments/figures/flow/"
+save_figs = 1
+experiments_dir = str(Path().absolute().parent)
+NS2D_dir = str(Path().absolute().parent.parent) + "/NS2D"
+fig_folder = NS2D_dir + "/figures/flow/"
 
-X = np.load('/home/s1511699/github/experiments/data/NS2D_experiment/X.npy')
+X = np.load(experiments_dir + '/data/NS2D_experiment/X.npy')
 
-data = pd.read_pickle('/home/s1511699/github/experiments/'
-                      + 'data/NS2D_experiment/data_T1000.pkl')
+data = pd.read_pickle(experiments_dir + '/data/NS2D_experiment/data_T1000.pkl')
 t_zeta = data['Ens'][data['t'] > 500].mean() ** -0.5
-dt = 1e-2 / 4
+dt = 2.5e-3
 max_tn = int(100 * t_zeta / dt)
 
 fig, ax = plt.subplots(1, 1, figsize=[3, 3])
@@ -25,4 +27,4 @@ ax.set_yticks([])
 ax.grid(False)
 fig.tight_layout()
 if save_figs:
-    fig.savefig(fig_folder + "traj.pdf", format='pdf')
+    fig.savefig(fig_folder + "Fig5.pdf", format='pdf')

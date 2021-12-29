@@ -1,12 +1,15 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from pathlib import Path
 plt.style.use('paper.mplstyle')
 save_figs = 1
-fig_folder = "/home/s1511699/github/experiments/figures/flow/"
+experiments_dir = str(Path().absolute().parent)
+NS2D_dir = str(Path().absolute().parent.parent) + "/NS2D"
+fig_folder = NS2D_dir + "/figures/flow/"
 
-data = pd.read_pickle('/home/s1511699/github/experiments/'
-                      + 'data/NS2D_experiment/data_T1000.pkl')
+
+data = pd.read_pickle(experiments_dir + '/data/NS2D_experiment/data_T1000.pkl')
 
 t_zeta = data['Ens'][data['t'] > 500].mean() ** -0.5
 rmsv = np.sqrt(2 * data['ke'][data['t'] > 500].mean())
